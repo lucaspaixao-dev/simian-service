@@ -5,19 +5,19 @@ import com.github.lucasschwenke.simian.application.web.response.DnaResponse
 import com.github.lucasschwenke.simian.domain.services.SimianService
 import io.ktor.application.ApplicationCall
 import io.ktor.http.HttpStatusCode
-import io.ktor.request.receive
 
 class SimianController(private val simianService: SimianService) {
 
-    suspend fun analyze(call: ApplicationCall) = call.receive<DnaRequest>()
-        .run {
-            simianService.analyzeDna(dna.toTypedArray())
-        }.also { isSimian ->
-            if (isSimian)
-                call.response.status(HttpStatusCode.OK)
-            else
-                call.response.status(HttpStatusCode.Forbidden)
-        }.let {
-            DnaResponse(it)
+    fun analyze(dnaRequest: DnaRequest, call: ApplicationCall) : DnaResponse {
+        val isSimian = simianService.analyzeDna(dnaRequest.dna.toTypedArray())
+
+        if (isSimian) {
+            call.response.status(HttpStatusCode.OK)
+        } else {
+            call.response.status(HttpStatusCode.Forbidden)
         }
+
+        return DnaResponse(isSimian)
+    }
 }
+

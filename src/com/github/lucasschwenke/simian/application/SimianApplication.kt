@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.github.lucasschwenke.simian.application.web.controllers.SimianController
+import com.github.lucasschwenke.simian.application.web.request.DnaRequest
 import com.github.lucasschwenke.simian.common.exceptions.ApiException
 import com.github.lucasschwenke.simian.common.koin.applicationModule
 import io.ktor.application.Application
@@ -15,6 +16,7 @@ import io.ktor.features.StatusPages
 import io.ktor.http.HttpStatusCode
 import io.ktor.jackson.jackson
 import io.ktor.request.httpMethod
+import io.ktor.request.receive
 import io.ktor.request.uri
 import io.ktor.response.respond
 import io.ktor.routing.post
@@ -61,7 +63,9 @@ fun Application.module(testing: Boolean = false) {
     routing {
         route("simian") {
             post {
-                call.respond(simianController.analyze(this.call))
+                this.call.receive<DnaRequest>().let {
+                    call.respond(simianController.analyze(it, this.call))
+                }
             }
         }
     }
