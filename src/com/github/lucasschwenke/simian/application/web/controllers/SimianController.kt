@@ -10,7 +10,7 @@ class SimianController(private val simianService: SimianService) {
 
     fun analyze(dnaRequest: DnaRequest, call: ApplicationCall) : DnaResponse {
         dnaRequest.validate()
-        val isSimian = simianService.analyzeDna(dnaRequest.dna.toTypedArray())
+        val isSimian = simianService.isSimian(dnaRequest.dna.toTypedArray())
 
         if (isSimian) {
             call.response.status(HttpStatusCode.OK)

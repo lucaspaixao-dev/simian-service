@@ -12,7 +12,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class SimianControllerTest {
-    private val dnaRequest = DnaRequest(dna = listOf("TCP", "ABC"))
+    private val dnaRequest = DnaRequest(dna = listOf("ATCG", "ATCG"))
     private val call = mockk<ApplicationCall>(relaxed = true)
     private val simianService = mockk<SimianService>(relaxed = true)
 
@@ -20,7 +20,7 @@ class SimianControllerTest {
 
     @Test
     fun `should return OK status code and true when dna it is a simian`() {
-        every { simianService.analyzeDna(dnaRequest.dna.toTypedArray()) } returns true
+        every { simianService.isSimian(dnaRequest.dna.toTypedArray()) } returns true
 
         val response = simianController.analyze(dnaRequest, call)
 
@@ -32,7 +32,7 @@ class SimianControllerTest {
 
     @Test
     fun `should return FORBIDDEN status code and true when dna it is a human`() {
-        every { simianService.analyzeDna(dnaRequest.dna.toTypedArray()) } returns false
+        every { simianService.isSimian(dnaRequest.dna.toTypedArray()) } returns false
 
         val response = simianController.analyze(dnaRequest, call)
 

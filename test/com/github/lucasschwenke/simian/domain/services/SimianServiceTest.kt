@@ -36,7 +36,7 @@ class SimianServiceTest {
         every { diagonalValidator.isValid(DNA, DNA.size) } returns false
         every { invertedDiagonalValidator.isValid(DNA, DNA.size) } returns false
 
-        val result = simianService.analyzeDna(DNA)
+        val result = simianService.isSimian(DNA)
 
         assertThat(result).isTrue()
         verify(exactly = 1) { horizontalValidator.isValid(DNA, DNA.size) }
@@ -53,7 +53,7 @@ class SimianServiceTest {
         every { diagonalValidator.isValid(DNA, DNA.size) } returns false
         every { invertedDiagonalValidator.isValid(DNA, DNA.size) } returns false
 
-        val result = simianService.analyzeDna(DNA)
+        val result = simianService.isSimian(DNA)
 
         assertThat(result).isTrue()
         verify(exactly = 1) { horizontalValidator.isValid(DNA, DNA.size) }
@@ -70,7 +70,7 @@ class SimianServiceTest {
         every { diagonalValidator.isValid(DNA, DNA.size) } returns true
         every { invertedDiagonalValidator.isValid(DNA, DNA.size) } returns false
 
-        val result = simianService.analyzeDna(DNA)
+        val result = simianService.isSimian(DNA)
 
         assertThat(result).isTrue()
         verify(exactly = 1) { horizontalValidator.isValid(DNA, DNA.size) }
@@ -87,7 +87,7 @@ class SimianServiceTest {
         every { diagonalValidator.isValid(DNA, DNA.size) } returns false
         every { invertedDiagonalValidator.isValid(DNA, DNA.size) } returns true
 
-        val result = simianService.analyzeDna(DNA)
+        val result = simianService.isSimian(DNA)
 
         assertThat(result).isTrue()
         verify(exactly = 1) { horizontalValidator.isValid(DNA, DNA.size) }
@@ -104,7 +104,7 @@ class SimianServiceTest {
         every { diagonalValidator.isValid(DNA, DNA.size) } returns false
         every { invertedDiagonalValidator.isValid(DNA, DNA.size) } returns false
 
-        val result = simianService.analyzeDna(DNA)
+        val result = simianService.isSimian(DNA)
 
         assertThat(result).isFalse()
         verify(exactly = 1) { horizontalValidator.isValid(DNA, DNA.size) }

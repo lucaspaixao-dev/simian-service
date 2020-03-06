@@ -4,7 +4,8 @@ import com.github.lucasschwenke.simian.domain.validations.Validations
 
 class SimianService(private val validations: Validations) {
 
-    fun analyzeDna(dna: Array<String>) : Boolean {
+    /* Here I used Array<String> because in kotlin String[] has changed by Array<String> */
+    fun isSimian(dna: Array<String>) : Boolean {
         val listOfValidations = validations.getValidations()
         var isSimian = false
 
