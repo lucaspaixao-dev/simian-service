@@ -21,7 +21,7 @@ class VerticalValidator : AbstractValidator(), DnaValidator {
                         }
                     }
                 } catch (e: IndexOutOfBoundsException) {
-                    throw InvalidDnaLengthException("The DNA $dna contains a invalid length.")
+                    throw InvalidDnaLengthException("The DNA contains a invalid length.")
                 }
             }
         }
