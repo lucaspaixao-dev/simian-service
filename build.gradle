@@ -45,13 +45,13 @@ dependencies {
     //utils
     compile "io.azam.ulidj:ulidj:$ulid_version"
 
-
     //tests
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_5_version"
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_5_version"
     testCompile "io.mockk:mockk:$mockk_version"
     testCompile "org.assertj:assertj-core:$assertions_version"
+    testCompile "de.bwaldvogel:mongo-java-server:$mongo_db_test"
 }
 
 test {
