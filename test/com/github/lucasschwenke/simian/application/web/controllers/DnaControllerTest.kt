@@ -1,8 +1,8 @@
 package com.github.lucasschwenke.com.github.lucasschwenke.simian.application.web.controllers
 
-import com.github.lucasschwenke.simian.application.web.controllers.SimianController
+import com.github.lucasschwenke.simian.application.web.controllers.DnaController
 import com.github.lucasschwenke.simian.application.web.request.DnaRequest
-import com.github.lucasschwenke.simian.domain.services.SimianService
+import com.github.lucasschwenke.simian.domain.services.DnaService
 import io.ktor.application.ApplicationCall
 import io.ktor.http.HttpStatusCode
 import io.mockk.every
@@ -11,12 +11,12 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class SimianControllerTest {
+class DnaControllerTest {
     private val dnaRequest = DnaRequest(dna = listOf("ATCG", "ATCG"))
     private val call = mockk<ApplicationCall>(relaxed = true)
-    private val simianService = mockk<SimianService>(relaxed = true)
+    private val simianService = mockk<DnaService>(relaxed = true)
 
-    private val simianController = SimianController(simianService)
+    private val simianController = DnaController(simianService)
 
     @Test
     fun `should return OK status code and true when dna it is a simian`() {

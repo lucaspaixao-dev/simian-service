@@ -1,6 +1,7 @@
 package com.github.lucasschwenke.com.github.lucasschwenke.simian.domain.services
 
-import com.github.lucasschwenke.simian.domain.services.SimianService
+import com.github.lucasschwenke.simian.domain.dna.repositories.DnaRepository
+import com.github.lucasschwenke.simian.domain.services.DnaService
 import com.github.lucasschwenke.simian.domain.validations.*
 import io.mockk.every
 import io.mockk.mockk
@@ -8,17 +9,19 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class SimianServiceTest {
+class DnaServiceTest {
     
     companion object {
         private val DNA = arrayOf("TAC", "TAC")
     }
 
     private val validations = mockk<Validations>(relaxed = true)
+    private val dnaRepository = mockk<DnaRepository>(relaxed = true)
     private val horizontalValidator = mockk<HorizontalValidator>(relaxed = true)
     private val verticalValidator = mockk<VerticalValidator>(relaxed = true)
     private val diagonalValidator = mockk<DiagonalValidator>(relaxed = true)
     private val invertedDiagonalValidator = mockk<InvertedDiagonalValidator>(relaxed = true)
+
     private val listOfValidations = listOf<DnaValidator>(
         horizontalValidator,
         verticalValidator,
@@ -26,7 +29,7 @@ class SimianServiceTest {
         invertedDiagonalValidator
     )
 
-    private val simianService = SimianService(validations)
+    private val simianService = DnaService(validations, dnaRepository)
 
     @Test
     fun `should return true when find a simian DNA in horizontal validator`() {

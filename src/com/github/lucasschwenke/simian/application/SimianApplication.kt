@@ -3,10 +3,11 @@ package com.github.lucasschwenke.simian.application
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.SerializationFeature
-import com.github.lucasschwenke.simian.application.web.controllers.SimianController
+import com.github.lucasschwenke.simian.application.web.controllers.DnaController
 import com.github.lucasschwenke.simian.application.web.request.DnaRequest
 import com.github.lucasschwenke.simian.common.exceptions.ApiException
 import com.github.lucasschwenke.simian.common.koin.applicationModule
+import com.github.lucasschwenke.simian.common.koin.databaseModule
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -31,7 +32,12 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
     install(Koin) {
-        modules(applicationModule)
+        modules(
+            listOf(
+                applicationModule,
+                databaseModule
+            )
+        )
     }
 
     install(ContentNegotiation) {
@@ -58,13 +64,13 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
-    val simianController: SimianController by inject()
+    val dnaController: DnaController by inject()
 
     routing {
         route("simian") {
             post {
                 this.call.receive<DnaRequest>().let {
-                    call.respond(simianController.analyze(it, this.call))
+                    call.respond(dnaController.analyze(it, this.call))
                 }
             }
         }
