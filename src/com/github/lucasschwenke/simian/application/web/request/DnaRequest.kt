@@ -8,7 +8,7 @@ data class DnaRequest(val dna: List<String>) {
 
     fun validate() {
         dna.forEach { sequence ->
-            sequence.forEach{ letter ->
+            sequence.forEach { letter ->
                 validateLetter(letter.toString())
             }
         }

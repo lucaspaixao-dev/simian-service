@@ -8,7 +8,7 @@ import io.ktor.http.HttpStatusCode
 
 class DnaController(private val dnaService: DnaService) {
 
-    fun analyze(dnaRequest: DnaRequest, call: ApplicationCall) : DnaResponse {
+    fun analyze(dnaRequest: DnaRequest, call: ApplicationCall): DnaResponse {
         dnaRequest.validate()
         val isSimian = dnaService.isSimian(dnaRequest.dna.toTypedArray())
 

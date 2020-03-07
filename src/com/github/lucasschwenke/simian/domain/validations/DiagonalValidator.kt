@@ -15,7 +15,7 @@ class DiagonalValidator : AbstractValidator(), DnaValidator {
                     currentValue == dna[i + 2][i + 2] &&
                     currentValue == dna[actualMaxPosition][actualMaxPosition]
                 ) {
-                    isSimian ++
+                    isSimian++
                 }
             }
         }

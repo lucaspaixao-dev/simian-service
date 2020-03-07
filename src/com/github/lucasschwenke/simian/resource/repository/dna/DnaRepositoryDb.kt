@@ -1,7 +1,6 @@
 package com.github.lucasschwenke.simian.resource.repository.dna
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.lucasschwenke.simian.domain.dna.Dna
 import com.github.lucasschwenke.simian.domain.dna.DnaType
 import com.github.lucasschwenke.simian.domain.dna.repositories.DnaRepository
@@ -41,13 +40,13 @@ class DnaRepositoryDb(
         collection.insertOne(BsonDocument.parse(json))
     }
 
-    override fun exists(dna: Array<String>) : Boolean {
+    override fun exists(dna: Array<String>): Boolean {
         val search = BasicDBObject(mutableMapOf(DNA to dna).toMap())
 
         return collection.find(search).firstOrNull() != null
     }
 
-    override fun countByType(type: DnaType) : Int {
+    override fun countByType(type: DnaType): Int {
         val search = BasicDBObject(mutableMapOf(TYPE to type.name).toMap())
 
         return collection.find(search)

@@ -7,7 +7,11 @@ import com.github.lucasschwenke.simian.application.web.controllers.DnaController
 import com.github.lucasschwenke.simian.application.web.controllers.StatsController
 import com.github.lucasschwenke.simian.application.web.request.DnaRequest
 import com.github.lucasschwenke.simian.common.exceptions.ApiException
-import com.github.lucasschwenke.simian.common.koin.*
+import com.github.lucasschwenke.simian.common.koin.applicationModule
+import com.github.lucasschwenke.simian.common.koin.databaseModule
+import com.github.lucasschwenke.simian.common.koin.dnaModule
+import com.github.lucasschwenke.simian.common.koin.statsModule
+import com.github.lucasschwenke.simian.common.koin.validatorsModule
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -20,8 +24,8 @@ import io.ktor.request.httpMethod
 import io.ktor.request.receive
 import io.ktor.request.uri
 import io.ktor.response.respond
-import io.ktor.routing.post
 import io.ktor.routing.get
+import io.ktor.routing.post
 import io.ktor.routing.route
 import io.ktor.routing.routing
 import org.koin.ktor.ext.Koin
@@ -57,7 +61,7 @@ fun Application.module(testing: Boolean = false) {
         exception<ApiException> { cause ->
             log.error(
                 "Error while processing request: ${this.context.request.httpMethod.value} - " +
-                    "${this.context.request.uri}: ${cause.userResponseMessage()}. Status: ${cause.httpStatus()}"
+                        "${this.context.request.uri}: ${cause.userResponseMessage()}. Status: ${cause.httpStatus()}"
             )
 
             val httpStatusCode = HttpStatusCode(cause.httpStatus(), cause.apiError().name)

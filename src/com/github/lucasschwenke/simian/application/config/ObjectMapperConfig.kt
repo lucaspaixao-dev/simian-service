@@ -8,9 +8,9 @@ import com.fasterxml.jackson.databind.SerializationFeature
 object ObjectMapperConfig {
 
     fun configure(): ObjectMapper = ObjectMapper().apply {
-            propertyNamingStrategy = PropertyNamingStrategy.SNAKE_CASE
-        }.let {
-            it.enable(SerializationFeature.INDENT_OUTPUT)
-            it.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        }
+        propertyNamingStrategy = PropertyNamingStrategy.SNAKE_CASE
+    }.let {
+        it.enable(SerializationFeature.INDENT_OUTPUT)
+        it.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+    }
 }
