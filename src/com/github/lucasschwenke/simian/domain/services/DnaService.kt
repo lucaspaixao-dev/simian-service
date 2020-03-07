@@ -15,14 +15,7 @@ class DnaService(
         checkExistsDna(dna)
         val simianFound = validateDna(dna)
 
-        return simianFound.also {
-            val newDna = Dna(
-                dna = dna,
-                type = DnaType.values().first { simianFound }
-            )
-
-            dnaRepository.create(newDna)
-        }
+        return simianFound.also { saveDna(dna, simianFound)}
     }
 
     private fun checkExistsDna(dna: Array<String>) {
@@ -34,7 +27,6 @@ class DnaService(
 
     private fun validateDna(dna: Array<String>) : Boolean {
         val listOfValidations = validations.getValidations()
-
         var simian = false
 
         listOfValidations.find { it.isValid(dna, dna.size) }?.run {
@@ -42,5 +34,14 @@ class DnaService(
         }
 
         return simian
+    }
+
+    private fun saveDna(dna: Array<String>, simianFound: Boolean) {
+        val newDna = Dna(
+            dna = dna,
+            type = if (simianFound) DnaType.SIMIAN else DnaType.HUMAN
+        )
+
+        dnaRepository.create(newDna)
     }
 }

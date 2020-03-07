@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.github.lucasschwenke.simian.application.web.controllers.DnaController
+import com.github.lucasschwenke.simian.application.web.controllers.StatsController
 import com.github.lucasschwenke.simian.application.web.request.DnaRequest
 import com.github.lucasschwenke.simian.common.exceptions.ApiException
-import com.github.lucasschwenke.simian.common.koin.applicationModule
-import com.github.lucasschwenke.simian.common.koin.databaseModule
+import com.github.lucasschwenke.simian.common.koin.*
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -21,6 +21,7 @@ import io.ktor.request.receive
 import io.ktor.request.uri
 import io.ktor.response.respond
 import io.ktor.routing.post
+import io.ktor.routing.get
 import io.ktor.routing.route
 import io.ktor.routing.routing
 import org.koin.ktor.ext.Koin
@@ -35,7 +36,10 @@ fun Application.module(testing: Boolean = false) {
         modules(
             listOf(
                 applicationModule,
-                databaseModule
+                databaseModule,
+                validatorsModule,
+                dnaModule,
+                statsModule
             )
         )
     }
@@ -65,6 +69,7 @@ fun Application.module(testing: Boolean = false) {
     }
 
     val dnaController: DnaController by inject()
+    val statsController: StatsController by inject()
 
     routing {
         route("simian") {
@@ -72,6 +77,11 @@ fun Application.module(testing: Boolean = false) {
                 this.call.receive<DnaRequest>().let {
                     call.respond(dnaController.analyze(it, this.call))
                 }
+            }
+        }
+        route("stats") {
+            get {
+                call.respond(statsController.getCurrentStats(this.call))
             }
         }
     }

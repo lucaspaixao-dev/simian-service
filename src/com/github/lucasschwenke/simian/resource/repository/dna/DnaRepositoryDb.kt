@@ -3,11 +3,13 @@ package com.github.lucasschwenke.simian.resource.repository.dna
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.lucasschwenke.simian.domain.dna.Dna
+import com.github.lucasschwenke.simian.domain.dna.DnaType
 import com.github.lucasschwenke.simian.domain.dna.repositories.DnaRepository
 import com.github.lucasschwenke.simian.resource.repository.dna.entities.DnaEntity
 import com.mongodb.BasicDBObject
 import com.mongodb.MongoClient
 import com.mongodb.client.MongoCollection
+import com.mongodb.client.model.Projections
 import io.azam.ulidj.ULID
 import org.bson.Document as BsonDocument
 
@@ -20,6 +22,7 @@ class DnaRepositoryDb(
 
     companion object {
         const val DNA = "dna"
+        const val TYPE = "type"
     }
 
     init {
@@ -39,15 +42,16 @@ class DnaRepositoryDb(
     }
 
     override fun exists(dna: Array<String>) : Boolean {
-        val searchParams = mutableMapOf(DNA to dna)
-        val search = BasicDBObject(searchParams.toMap())
+        val search = BasicDBObject(mutableMapOf(DNA to dna).toMap())
 
         return collection.find(search).firstOrNull() != null
     }
 
-    override fun findAll() : List<Dna> =
-        collection.find()
-            .map { objectMapper.readValue<DnaEntity>(it.toJson()) }
-            .map { Dna(it.dna, it.type) }
-            .toList()
+    override fun countByType(type: DnaType) : Int {
+        val search = BasicDBObject(mutableMapOf(TYPE to type.name).toMap())
+
+        return collection.find(search)
+            .projection(Projections.excludeId())
+            .count()
+    }
 }
