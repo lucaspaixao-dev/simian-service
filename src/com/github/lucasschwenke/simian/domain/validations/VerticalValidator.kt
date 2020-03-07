@@ -17,7 +17,7 @@ class VerticalValidator : AbstractValidator(), DnaValidator {
                             dna[j][i] == dna[j + 2][i] &&
                             dna[j][i] == dna[actualMaxPosition][i]
                         ) {
-                            simiansFound ++
+                            simiansFound++
                         }
                     }
                 } catch (e: IndexOutOfBoundsException) {

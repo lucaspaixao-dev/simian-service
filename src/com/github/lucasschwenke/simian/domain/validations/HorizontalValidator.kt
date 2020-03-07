@@ -4,7 +4,7 @@ import com.github.lucasschwenke.simian.domain.exceptions.InvalidDnaLengthExcepti
 
 class HorizontalValidator : AbstractValidator(), DnaValidator {
 
-    override fun isValid(dna: Array<String>, size: Int) : Boolean {
+    override fun isValid(dna: Array<String>, size: Int): Boolean {
         var simiansFound = 0
 
         for (i in 0 until size) {
@@ -19,7 +19,7 @@ class HorizontalValidator : AbstractValidator(), DnaValidator {
                             currentValue == dna[i][j + 2] &&
                             currentValue == dna[i][j + actualMaxPosition]
                         ) {
-                            simiansFound ++
+                            simiansFound++
                         }
                     }
                 } catch (e: IndexOutOfBoundsException) {

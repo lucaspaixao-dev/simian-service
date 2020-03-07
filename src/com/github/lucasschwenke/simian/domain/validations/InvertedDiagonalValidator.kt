@@ -16,7 +16,7 @@ class InvertedDiagonalValidator : AbstractValidator(), DnaValidator {
                     currentValue == dna[initialPosition - 2][i + 2] &&
                     currentValue == dna[initialPosition - 3][i + 3]
                 ) {
-                    isSimian ++
+                    isSimian++
                 }
             }
         }

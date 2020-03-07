@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: simian
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+      MONGO_INITDB_DATABASE: simian_service
+    ports:
+      - 27017:27017
+    volumes:
+      - ./resources/db/V1__init_db.js:/docker-entrypoint-initdb.d/mongo-init.js:ro

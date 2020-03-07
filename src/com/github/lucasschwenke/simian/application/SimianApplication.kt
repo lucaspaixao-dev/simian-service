@@ -3,10 +3,15 @@ package com.github.lucasschwenke.simian.application
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.SerializationFeature
-import com.github.lucasschwenke.simian.application.web.controllers.SimianController
+import com.github.lucasschwenke.simian.application.web.controllers.DnaController
+import com.github.lucasschwenke.simian.application.web.controllers.StatsController
 import com.github.lucasschwenke.simian.application.web.request.DnaRequest
 import com.github.lucasschwenke.simian.common.exceptions.ApiException
 import com.github.lucasschwenke.simian.common.koin.applicationModule
+import com.github.lucasschwenke.simian.common.koin.databaseModule
+import com.github.lucasschwenke.simian.common.koin.dnaModule
+import com.github.lucasschwenke.simian.common.koin.statsModule
+import com.github.lucasschwenke.simian.common.koin.validatorsModule
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -19,6 +24,7 @@ import io.ktor.request.httpMethod
 import io.ktor.request.receive
 import io.ktor.request.uri
 import io.ktor.response.respond
+import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.route
 import io.ktor.routing.routing
@@ -31,7 +37,15 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
     install(Koin) {
-        modules(applicationModule)
+        modules(
+            listOf(
+                applicationModule,
+                databaseModule,
+                validatorsModule,
+                dnaModule,
+                statsModule
+            )
+        )
     }
 
     install(ContentNegotiation) {
@@ -47,7 +61,7 @@ fun Application.module(testing: Boolean = false) {
         exception<ApiException> { cause ->
             log.error(
                 "Error while processing request: ${this.context.request.httpMethod.value} - " +
-                    "${this.context.request.uri}: ${cause.userResponseMessage()}. Status: ${cause.httpStatus()}"
+                        "${this.context.request.uri}: ${cause.userResponseMessage()}. Status: ${cause.httpStatus()}"
             )
 
             val httpStatusCode = HttpStatusCode(cause.httpStatus(), cause.apiError().name)
@@ -58,14 +72,20 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
-    val simianController: SimianController by inject()
+    val dnaController: DnaController by inject()
+    val statsController: StatsController by inject()
 
     routing {
         route("simian") {
             post {
                 this.call.receive<DnaRequest>().let {
-                    call.respond(simianController.analyze(it, this.call))
+                    call.respond(dnaController.analyze(it, this.call))
                 }
+            }
+        }
+        route("stats") {
+            get {
+                call.respond(statsController.getCurrentStats(this.call))
             }
         }
     }

@@ -1,10 +1,5 @@
 package com.github.lucasschwenke
 
-import io.ktor.http.*
-import com.github.lucasschwenke.simian.application.module
-import kotlin.test.*
-import io.ktor.server.testing.*
-
 class ApplicationTest {
 /*    @Test
     fun testRoot() {

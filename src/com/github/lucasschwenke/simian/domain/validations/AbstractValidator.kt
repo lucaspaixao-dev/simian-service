@@ -9,5 +9,5 @@ abstract class AbstractValidator {
 
     val maxLength = MAX_LENGTH
 
-    protected fun checkSimian(simiansFound: Int) : Boolean = simiansFound >= SIMIANS_FOUND
+    protected fun checkSimian(simiansFound: Int): Boolean = simiansFound >= SIMIANS_FOUND
 }
