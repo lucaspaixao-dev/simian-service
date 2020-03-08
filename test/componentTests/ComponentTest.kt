@@ -1,7 +1,6 @@
 package componentTests
 
 import com.github.lucasschwenke.simian.application.config.DatabaseConfig
-import com.github.lucasschwenke.simian.application.config.ObjectMapperConfig
 import com.mongodb.BasicDBObject
 import com.mongodb.MongoClient
 import com.mongodb.ServerAddress
@@ -19,8 +18,6 @@ abstract class ComponentTest {
     companion object {
         private const val DB_NAME = "fake-db"
     }
-
-    protected val objectMapper = ObjectMapperConfig.configure()
 
     private val server: MongoServer = MongoServer(MemoryBackend())
     private val client: MongoClient = MongoClient(ServerAddress(server.bind()))
