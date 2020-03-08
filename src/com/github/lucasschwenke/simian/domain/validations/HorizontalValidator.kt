@@ -1,10 +1,15 @@
 package com.github.lucasschwenke.simian.domain.validations
 
+import com.github.lucasschwenke.simian.common.logger.ApplicationLogger
 import com.github.lucasschwenke.simian.domain.exceptions.InvalidDnaLengthException
 
 class HorizontalValidator : AbstractValidator(), DnaValidator {
 
+    companion object : ApplicationLogger()
+
     override fun isValid(dna: Array<String>, size: Int): Boolean {
+        logger.debug("Checking if dna is simian on horizontal...")
+
         var simiansFound = 0
         var actualMaxPosition: Int
 
@@ -24,12 +29,14 @@ class HorizontalValidator : AbstractValidator(), DnaValidator {
                         }
                     }
                 } catch (e: IndexOutOfBoundsException) {
+                    logger.error("Error on horizontal analyze: ", e)
                     throw InvalidDnaLengthException("The DNA contains a invalid length.")
                 }
             }
             actualMaxPosition = 0
         }
 
+        logger.debug("Simians found in horizontal: $simiansFound")
         return checkSimian(simiansFound)
     }
 }

@@ -1,5 +1,6 @@
 package com.github.lucasschwenke.simian.application.config
 
+import com.github.lucasschwenke.simian.common.logger.ApplicationLogger
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientOptions
 import com.mongodb.MongoCredential
@@ -9,11 +10,13 @@ import io.ktor.config.HoconApplicationConfig
 import io.ktor.util.KtorExperimentalAPI
 
 @KtorExperimentalAPI
-object DatabaseConfig {
+object DatabaseConfig : ApplicationLogger() {
 
     private val appConfig = HoconApplicationConfig(ConfigFactory.load())
 
     fun connect(): MongoClient {
+        logger.info("Configuring mongo database...")
+
         val serverAddress = ServerAddress(appConfig.property("db.mongoHost").getString())
 
         val credential = MongoCredential.createCredential(

@@ -1,9 +1,14 @@
 package com.github.lucasschwenke.simian.domain.validations
 
+import com.github.lucasschwenke.simian.common.logger.ApplicationLogger
+
 class InvertedDiagonalValidator : AbstractValidator(), DnaValidator {
 
+    companion object : ApplicationLogger()
+
     override fun isValid(dna: Array<String>, size: Int): Boolean {
-        var isSimian = 0
+        logger.debug("Checking if dna is simian on inverted diagonal...")
+        var simiansFound = 0
 
         for (i in 0 until size) {
             val initialPosition = i + maxLength
@@ -16,11 +21,12 @@ class InvertedDiagonalValidator : AbstractValidator(), DnaValidator {
                     currentValue == dna[initialPosition - 2][i + 2] &&
                     currentValue == dna[initialPosition - 3][i + 3]
                 ) {
-                    isSimian++
+                    simiansFound++
                 }
             }
         }
 
-        return checkSimian(isSimian)
+        logger.debug("Simians found in inverted diagonal: $simiansFound")
+        return checkSimian(simiansFound)
     }
 }
