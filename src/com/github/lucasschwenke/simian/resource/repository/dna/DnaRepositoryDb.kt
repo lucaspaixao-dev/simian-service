@@ -1,6 +1,7 @@
 package com.github.lucasschwenke.simian.resource.repository.dna
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.lucasschwenke.simian.common.logger.ApplicationLogger
 import com.github.lucasschwenke.simian.domain.dna.Dna
 import com.github.lucasschwenke.simian.domain.dna.DnaType
 import com.github.lucasschwenke.simian.domain.dna.repositories.DnaRepository
@@ -17,9 +18,10 @@ class DnaRepositoryDb(
     database: String,
     private val objectMapper: ObjectMapper
 ) : DnaRepository {
+
     private val collection: MongoCollection<BsonDocument>
 
-    companion object {
+    companion object : ApplicationLogger() {
         const val DNA = "dna"
         const val TYPE = "type"
     }
@@ -27,6 +29,8 @@ class DnaRepositoryDb(
     init {
         val db = client.getDatabase(database)
         collection = db.getCollection(DNA)
+
+        logger.debug("Connect in database $database on collection $collection")
     }
 
     override fun create(dna: Dna) {
@@ -37,20 +41,25 @@ class DnaRepositoryDb(
         )
 
         val json = objectMapper.writeValueAsString(dnaEntity)
+
+        logger.debug("Creating DNA $dnaEntity")
         collection.insertOne(BsonDocument.parse(json))
     }
 
     override fun exists(dna: Array<String>): Boolean {
         val search = BasicDBObject(mutableMapOf(DNA to dna).toMap())
-
         return collection.find(search).firstOrNull() != null
     }
 
     override fun countByType(type: DnaType): Int {
         val search = BasicDBObject(mutableMapOf(TYPE to type.name).toMap())
 
-        return collection.find(search)
+        val count = collection.find(search)
             .projection(Projections.excludeId())
             .count()
+
+        logger.debug("Found $count DNA to DNA type $type")
+
+        return count
     }
 }

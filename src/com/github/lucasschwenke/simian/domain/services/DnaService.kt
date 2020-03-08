@@ -1,6 +1,7 @@
 package com.github.lucasschwenke.simian.domain.services
 
 import com.github.lucasschwenke.simian.application.web.exceptions.DnaAlreadyRegisteredException
+import com.github.lucasschwenke.simian.common.logger.ApplicationLogger
 import com.github.lucasschwenke.simian.domain.dna.Dna
 import com.github.lucasschwenke.simian.domain.dna.DnaType
 import com.github.lucasschwenke.simian.domain.dna.repositories.DnaRepository
@@ -10,6 +11,8 @@ class DnaService(
     private val validations: Validations,
     private val dnaRepository: DnaRepository
 ) {
+
+    companion object : ApplicationLogger()
 
     /* Here I used Array<String> because in kotlin String[] has changed by Array<String> */
     fun isSimian(dna: Array<String>): Boolean {
@@ -21,6 +24,7 @@ class DnaService(
 
     private fun checkExistsDna(dna: Array<String>) {
         if (dnaRepository.exists(dna)) {
+            logger.error("Dna $dna already registered")
             throw DnaAlreadyRegisteredException("DNA already registered.")
         }
     }

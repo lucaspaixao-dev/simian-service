@@ -1,8 +1,20 @@
 version: '3.7'
 
 services:
+  simian:
+    build: .
+    restart: always
+    container_name: simian-service
+    ports:
+      - 8182:8080
+    working_dir: /app
+    depends_on:
+      - mongodb
+    networks:
+      - simian-network
+
   mongodb:
-    image: mongo:latest
+    image: mongo
     container_name: mongodb
     restart: always
     environment:
@@ -13,3 +25,10 @@ services:
       - 27017:27017
     volumes:
       - ./resources/db/V1__init_db.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - simian-network
+    command: ["--bind_ip_all"]
+
+networks:
+  simian-network:
+    driver: bridge
