@@ -17,7 +17,7 @@ This API was develop with:
                                             $ docker-compose up
                                             ```
  - For test, execute the following command on terminal: ```
-                                        $ curl --location --request GET 'localhost:8182/stats'
+                                        $ curl --location --request GET 'localhost:8182/health-check'
                                         ```
                                         
 # Libraries
