@@ -23,4 +23,13 @@ class DnaRequestTest {
             dnaRequest.validate()
         }
     }
+
+    @Test
+    fun `should thrown an exception when there are lower case letter`() {
+        val dnaRequest = DnaRequest(listOf("AAaTC", "CCZGG"))
+
+        assertThrows(InvalidCharacterException::class.java) {
+            dnaRequest.validate()
+        }
+    }
 }

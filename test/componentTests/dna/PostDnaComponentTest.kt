@@ -89,4 +89,21 @@ class PostDnaComponentTest : ComponentTest() {
             }
         }
     }
+
+    @Test
+    fun `should return 400 status when dna contains lower case letters`() {
+        withTestApplication({ module(dbTestModule = getTestDbModule()) }) {
+            handleRequest(HttpMethod.Post, "/simian") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody(readFile("requests/lower_case_dna"))
+            }.apply {
+                assertThat(this.response.status()).isNotNull
+                assertThat(this.response.status()!!.value).isEqualTo(HttpStatusCode.BadRequest.value)
+                assertThat(this.response.content).isNotNull()
+
+                val expectedResponse = readFile("responses/dna_invalid_lower_case_error")
+                assertEquals(expectedResponse, this.response.content, JSONCompareMode.LENIENT)
+            }
+        }
+    }
 }
