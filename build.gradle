@@ -8,6 +8,7 @@ buildscript {
     }
 }
 
+apply plugin: 'jacoco'
 apply plugin: 'kotlin'
 apply plugin: 'application'
 
@@ -55,6 +56,50 @@ dependencies {
     testCompile "org.skyscreamer:jsonassert:$json_assert_version"
 
 }
+
+def ignorePackagesInJacocoReport = { classDirectories ->
+    files(classDirectories.files.collect {
+        fileTree(dir: it,
+                exclude: [
+                        'com/github/lucasschwenke/simian/application/SimianApplication**',
+                        'com/github/lucasschwenke/simian/application/config/**',
+                        'com/github/lucasschwenke/simian/application/web/exceptions/**',
+                        'com/github/lucasschwenke/simian/application/web/requests/**',
+                        'com/github/lucasschwenke/simian/application/config/**',
+                        'com/github/lucasschwenke/simian/common/**',
+                        'com/github/lucasschwenke/simian/domain/exceptions/**'
+                ])
+    })
+}
+
+jacoco {
+    toolVersion = "0.8.4"
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.80
+            }
+        }
+    }
+
+    afterEvaluate {
+        classDirectories = ignorePackagesInJacocoReport(classDirectories)
+    }
+}
+
+jacocoTestReport {
+    reports.xml.enabled = true
+
+    afterEvaluate {
+        classDirectories = ignorePackagesInJacocoReport(classDirectories)
+    }
+}
+
+test.finalizedBy jacocoTestReport
+test.finalizedBy jacocoTestCoverageVerification
 
 test {
     useJUnitPlatform()
