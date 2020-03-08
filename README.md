@@ -16,7 +16,7 @@ This API was develop with:
  - Execute the command in the project root: ```
                                             $ docker-compose up
                                             ```
- - For test, execute o seguinte curl: ```
+ - For test, execute the following command on terminal: ```
                                         $ curl --location --request GET 'localhost:8182/stats'
                                         ```
                                         
