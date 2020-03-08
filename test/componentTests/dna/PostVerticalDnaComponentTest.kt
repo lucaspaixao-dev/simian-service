@@ -1,10 +1,8 @@
 package componentTests.dna
 
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.lucasschwenke.simian.application.module
-import com.github.lucasschwenke.simian.application.web.request.DnaRequest
-import com.github.lucasschwenke.simian.application.web.response.DnaResponse
 import componentTests.ComponentTest
+import componentTests.utils.ComponentTestsUtils.readFile
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
@@ -14,6 +12,8 @@ import io.ktor.server.testing.setBody
 import io.ktor.server.testing.withTestApplication
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.skyscreamer.jsonassert.JSONAssert.assertEquals
+import org.skyscreamer.jsonassert.JSONCompareMode
 
 class PostVerticalDnaComponentTest : ComponentTest() {
 
@@ -21,17 +21,15 @@ class PostVerticalDnaComponentTest : ComponentTest() {
     fun `should return 200 status when a simian dna in vertical`() {
         withTestApplication({ module(dbTestModule = getTestDbModule()) }) {
             handleRequest(HttpMethod.Post, "/simian") {
-                val request = DnaRequest(dna = listOf("CTGAGA", "CTGAGC", "CATTGT", "CGAGAG", "AACGTA", "TCACTG"))
-
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(objectMapper.writeValueAsString(request))
+                setBody(readFile("requests/diagonal_simian_dna"))
             }.apply {
                 assertThat(this.response.status()).isNotNull
                 assertThat(this.response.status()!!.value).isEqualTo(HttpStatusCode.OK.value)
                 assertThat(this.response.content).isNotNull()
 
-                val response = objectMapper.readValue<DnaResponse>(this.response.content!!)
-                assertThat(response.simian).isTrue()
+                val expectedResponse = readFile("responses/simian_dna")
+                assertEquals(expectedResponse, this.response.content, JSONCompareMode.LENIENT)
             }
         }
     }

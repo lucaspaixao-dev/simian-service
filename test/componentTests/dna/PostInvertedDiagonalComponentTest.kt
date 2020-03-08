@@ -15,14 +15,14 @@ import org.junit.jupiter.api.Test
 import org.skyscreamer.jsonassert.JSONAssert.assertEquals
 import org.skyscreamer.jsonassert.JSONCompareMode
 
-class PostHorizontalDnaComponentTest : ComponentTest() {
+class PostInvertedDiagonalComponentTest : ComponentTest() {
 
     @Test
-    fun `should return 200 status when a simian dna in horizontal`() {
+    fun `should return 200 status when a simian dna in inverted diagonal`() {
         withTestApplication({ module(dbTestModule = getTestDbModule()) }) {
             handleRequest(HttpMethod.Post, "/simian") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(readFile("requests/horizontal_simian_dna"))
+                setBody(readFile("requests/inverted_diagonal_simian_dna"))
             }.apply {
                 assertThat(this.response.status()).isNotNull
                 assertThat(this.response.status()!!.value).isEqualTo(HttpStatusCode.OK.value)

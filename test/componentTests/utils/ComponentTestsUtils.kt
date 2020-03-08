@@ -11,7 +11,7 @@ object ComponentTestsUtils {
     }
 
     private fun fileUri(fileName: String): URI {
-        val fullPath = "/responses/$fileName.json"
+        val fullPath = "/stub/$fileName.json"
         return ComponentTestsUtils::class.java.getResource(fullPath).toURI()
     }
 }

@@ -1,4 +1,4 @@
-package com.github.lucasschwenke.com.github.lucasschwenke.simian.application.web.requests
+package com.github.lucasschwenke.simian.application.web.requests
 
 import com.github.lucasschwenke.simian.application.web.exceptions.InvalidCharacterException
 import com.github.lucasschwenke.simian.application.web.request.DnaRequest

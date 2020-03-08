@@ -2,4 +2,4 @@ package com.github.lucasschwenke.simian.application.web.response
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class DnaResponse(@JsonProperty("simian") val simian: Boolean)
+data class DnaResponse(@get:JsonProperty("is_simian") val isSimian: Boolean)
