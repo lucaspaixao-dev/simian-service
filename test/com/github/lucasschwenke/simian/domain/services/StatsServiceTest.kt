@@ -2,7 +2,6 @@ package com.github.lucasschwenke.simian.domain.services
 
 import com.github.lucasschwenke.simian.domain.dna.DnaType
 import com.github.lucasschwenke.simian.domain.dna.repositories.DnaRepository
-import com.github.lucasschwenke.simian.domain.services.StatsService
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat

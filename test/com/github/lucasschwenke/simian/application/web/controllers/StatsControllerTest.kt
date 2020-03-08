@@ -1,6 +1,5 @@
 package com.github.lucasschwenke.simian.application.web.controllers
 
-import com.github.lucasschwenke.simian.application.web.controllers.StatsController
 import com.github.lucasschwenke.simian.domain.services.StatsService
 import io.ktor.application.ApplicationCall
 import io.ktor.http.HttpStatusCode
