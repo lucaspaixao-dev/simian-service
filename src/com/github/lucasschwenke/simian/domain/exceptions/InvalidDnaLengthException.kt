@@ -10,5 +10,4 @@ class InvalidDnaLengthException(message: String) : ApiException(message = messag
     override fun apiError() = ApiError.BAD_REQUEST
 
     override fun userResponseMessage() = "$message"
-
 }

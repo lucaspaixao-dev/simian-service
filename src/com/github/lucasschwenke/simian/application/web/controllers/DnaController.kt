@@ -21,4 +21,3 @@ class DnaController(private val dnaService: DnaService) {
         return DnaResponse(isSimian)
     }
 }
-

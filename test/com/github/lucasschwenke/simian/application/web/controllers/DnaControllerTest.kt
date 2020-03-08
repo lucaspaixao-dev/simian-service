@@ -28,7 +28,6 @@ class DnaControllerTest {
         verify { call.response.status(HttpStatusCode.OK) }
     }
 
-
     @Test
     fun `should return FORBIDDEN status code and true when dna it is a human`() {
         every { simianService.isSimian(dnaRequest.dna.toTypedArray()) } returns false
