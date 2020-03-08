@@ -1,0 +1,124 @@
+openapi: 3.0.0
+
+info:
+  title: Simian Service - API
+
+  description: |
+    API for simian service
+
+  version: 1.0.0
+
+  contact:
+    name: lucasspxo@gmail.com
+
+tags:
+  - name: Simian
+    description: |
+      Endpoints to simian context.
+
+  - name: Stats
+    description: |
+      Endpoints to stats context.
+
+servers:
+  - url: http://localhost:{port}
+    description: local environment
+    variables:
+      port:
+        default: '8182'
+paths:
+  /simian:
+    post:
+      summary: Simian
+      description: |
+        Endpoint to analyze a dna
+
+      tags:
+        - Simian
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DnaRequest'
+
+      responses:
+        200:
+          description: Return simian dna
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimianDnaResponse'
+
+        403:
+          description: Return human dna
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanDnaResponse'
+
+        400:
+          description: Return when dna is not valid
+
+  /stats:
+    get:
+      summary: Stats
+      description: |
+        Endpoint to get current stats.
+
+      tags:
+        - Stats
+
+      responses:
+        200:
+          description: Return current stats
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsResponse'
+
+components:
+  schemas:
+    ##Requests
+    DnaRequest:
+      type: object
+      properties:
+        dna:
+          type: array
+          items:
+            type: string
+          description: DNA to analyze.
+
+    ##Responses
+    SimianDnaResponse:
+      type: object
+      properties:
+        is_simian:
+          type: boolean
+          description: Result of analyze
+          example: true
+
+    HumanDnaResponse:
+      type: object
+      properties:
+        is_simian:
+          type: boolean
+          description: Result of analyze
+          example: false
+
+    StatsResponse:
+      type: object
+      properties:
+        count_mutant_dna:
+          type: number
+          description: Total of simians
+          example: 1
+        count_human_dna:
+          type: number
+          description: Total of human
+          example: 2
+        radio:
+          type: number
+          description: radio
+          example: 0.5
