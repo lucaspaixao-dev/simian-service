@@ -51,9 +51,48 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_5_version"
     testCompile "io.mockk:mockk:$mockk_version"
     testCompile "org.assertj:assertj-core:$assertions_version"
-    testCompile "de.bwaldvogel:mongo-java-server:$mongo_db_test"
+    testCompile "de.bwaldvogel:mongo-java-server:$mongo_db_test_version"
+    testCompile "org.skyscreamer:jsonassert:$json_assert_version"
+
 }
 
 test {
     useJUnitPlatform()
+
+    filter {
+        includeTestsMatching "com.github.lucasschwenke.simian.*"
+    }
+
+    testLogging {
+        events "failed", "passed", "skipped"
+        showExceptions = true
+        exceptionFormat = "full"
+        showCauses = true
+    }
 }
+
+task componentTest(type: Test) {
+    useJUnitPlatform()
+    maxHeapSize "512m"
+    failFast = true
+
+    environment "MONGO_HOST", "TEST"
+    environment "MONGO_AUTH_USER", "TEST"
+    environment "MONGO_DATABASE", "TEST"
+    environment "MONGO_AUTH_PASSWORD", 1234
+
+    filter {
+        includeTestsMatching "componentTests.*"
+    }
+
+    testLogging {
+        events "failed", "passed", "skipped"
+        showExceptions = true
+        exceptionFormat = "full"
+        showCauses = true
+    }
+
+    mustRunAfter test
+}
+
+test.finalizedBy componentTest

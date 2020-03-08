@@ -9,15 +9,24 @@ data class DnaRequest(val dna: List<String>) {
     fun validate() {
         dna.forEach { sequence ->
             sequence.forEach { letter ->
-                validateLetter(letter.toString())
+                validateLowerCase(letter)
+                validateBlackList(letter.toString())
             }
         }
     }
 
-    private fun validateLetter(letter: String) {
+    private fun validateBlackList(letter: String) {
         if (!allowedCharacters.contains(letter)) {
             throw InvalidCharacterException(
-                "The char $this in dna it's invalid."
+                "The char $letter in dna it's invalid."
+            )
+        }
+    }
+
+    private fun validateLowerCase(letter: Char) {
+        if (letter.isLowerCase()) {
+            throw InvalidCharacterException(
+                "The char $letter in dna it's invalid."
             )
         }
     }

@@ -1,6 +1,5 @@
-package com.github.lucasschwenke.com.github.lucasschwenke.simian.application.web.controllers
+package com.github.lucasschwenke.simian.application.web.controllers
 
-import com.github.lucasschwenke.simian.application.web.controllers.DnaController
 import com.github.lucasschwenke.simian.application.web.request.DnaRequest
 import com.github.lucasschwenke.simian.domain.services.DnaService
 import io.ktor.application.ApplicationCall

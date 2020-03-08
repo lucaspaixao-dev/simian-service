@@ -1,4 +1,4 @@
-package com.github.lucasschwenke.com.github.lucasschwenke.simian.application.web.requests
+package com.github.lucasschwenke.simian.application.web.requests
 
 import com.github.lucasschwenke.simian.application.web.exceptions.InvalidCharacterException
 import com.github.lucasschwenke.simian.application.web.request.DnaRequest
@@ -18,6 +18,15 @@ class DnaRequestTest {
     @Test
     fun `should thrown an exception when there are a invalid  character`() {
         val dnaRequest = DnaRequest(listOf("AAATC", "CCZGG"))
+
+        assertThrows(InvalidCharacterException::class.java) {
+            dnaRequest.validate()
+        }
+    }
+
+    @Test
+    fun `should thrown an exception when there are lower case letter`() {
+        val dnaRequest = DnaRequest(listOf("AAaTC", "CCZGG"))
 
         assertThrows(InvalidCharacterException::class.java) {
             dnaRequest.validate()
