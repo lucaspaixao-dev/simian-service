@@ -28,6 +28,7 @@ import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.route
 import io.ktor.routing.routing
+import org.koin.core.module.Module
 import org.koin.ktor.ext.Koin
 import org.koin.ktor.ext.inject
 
@@ -35,12 +36,12 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused")
 @kotlin.jvm.JvmOverloads
-fun Application.module(testing: Boolean = false) {
+fun Application.module(dbTestModule: Module? = null) {
     install(Koin) {
         modules(
             listOf(
                 applicationModule,
-                databaseModule,
+                dbTestModule ?: databaseModule,
                 validatorsModule,
                 dnaModule,
                 statsModule

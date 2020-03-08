@@ -6,10 +6,11 @@ class HorizontalValidator : AbstractValidator(), DnaValidator {
 
     override fun isValid(dna: Array<String>, size: Int): Boolean {
         var simiansFound = 0
+        var actualMaxPosition: Int
 
         for (i in 0 until size) {
             for (j in 0 until size) {
-                val actualMaxPosition = j + maxLength
+                actualMaxPosition = j + maxLength
 
                 try {
                     if (actualMaxPosition < size) {
@@ -17,7 +18,7 @@ class HorizontalValidator : AbstractValidator(), DnaValidator {
 
                         if (currentValue == dna[i][j + 1] &&
                             currentValue == dna[i][j + 2] &&
-                            currentValue == dna[i][j + actualMaxPosition]
+                            currentValue == dna[i][actualMaxPosition]
                         ) {
                             simiansFound++
                         }
@@ -26,6 +27,7 @@ class HorizontalValidator : AbstractValidator(), DnaValidator {
                     throw InvalidDnaLengthException("The DNA contains a invalid length.")
                 }
             }
+            actualMaxPosition = 0
         }
 
         return checkSimian(simiansFound)

@@ -25,7 +25,7 @@ class DnaControllerTest {
         val response = simianController.analyze(dnaRequest, call)
 
         assertThat(response).isNotNull
-        assertThat(response.isSimian).isTrue()
+        assertThat(response.simian).isTrue()
         verify { call.response.status(HttpStatusCode.OK) }
     }
 
@@ -37,7 +37,7 @@ class DnaControllerTest {
         val response = simianController.analyze(dnaRequest, call)
 
         assertThat(response).isNotNull
-        assertThat(response.isSimian).isFalse()
+        assertThat(response.simian).isFalse()
         verify { call.response.status(HttpStatusCode.Forbidden) }
     }
 }

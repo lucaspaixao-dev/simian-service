@@ -6,7 +6,9 @@ import com.mongodb.MongoCredential
 import com.mongodb.ServerAddress
 import com.typesafe.config.ConfigFactory
 import io.ktor.config.HoconApplicationConfig
+import io.ktor.util.KtorExperimentalAPI
 
+@KtorExperimentalAPI
 object DatabaseConfig {
 
     private val appConfig = HoconApplicationConfig(ConfigFactory.load())

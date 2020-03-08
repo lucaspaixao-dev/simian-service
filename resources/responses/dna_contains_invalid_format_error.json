@@ -1,0 +1,4 @@
+{
+  "api_error" : "BAD_REQUEST",
+  "message" : "The DNA contains a invalid length."
+}

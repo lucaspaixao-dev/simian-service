@@ -6,10 +6,13 @@ class VerticalValidator : AbstractValidator(), DnaValidator {
 
     override fun isValid(dna: Array<String>, size: Int): Boolean {
         var simiansFound = 0
+        var actualMaxPosition = 0
 
         for (i in 0 until size) {
+            actualMaxPosition = 0
+
             for (j in 0 until size) {
-                val actualMaxPosition = j + maxLength
+                actualMaxPosition = j + maxLength
 
                 try {
                     if (actualMaxPosition < size) {

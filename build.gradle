@@ -51,9 +51,47 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_5_version"
     testCompile "io.mockk:mockk:$mockk_version"
     testCompile "org.assertj:assertj-core:$assertions_version"
-    testCompile "de.bwaldvogel:mongo-java-server:$mongo_db_test"
+    testCompile "de.bwaldvogel:mongo-java-server:$mongo_db_test_version"
+    testCompile "org.skyscreamer:jsonassert:$json_assert_version"
+
 }
 
 test {
     useJUnitPlatform()
+
+    filter {
+        includeTestsMatching "com.github.lucasschwenke.com.github.lucasschwenke.simian.*"
+    }
+
+    testLogging {
+        exceptionFormat = 'full'
+        outputs.upToDateWhen { false }
+        showStandardStreams = true
+        events "PASSED", "FAILED", "SKIPPED"
+    }
 }
+
+task componentTest(type: Test) {
+    useJUnitPlatform()
+    failFast = true
+
+    environment "MONGO_HOST", "TEST"
+    environment "MONGO_AUTH_USER", "TEST"
+    environment "MONGO_DATABASE", "TEST"
+    environment "MONGO_AUTH_PASSWORD", 1234
+
+    filter {
+        includeTestsMatching "componentTests.*"
+    }
+
+    testLogging {
+        exceptionFormat = 'full'
+        outputs.upToDateWhen { false }
+        showStandardStreams = true
+        events "PASSED", "FAILED", "SKIPPED"
+    }
+
+    mustRunAfter test
+}
+
+test.finalizedBy componentTest
