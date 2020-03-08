@@ -1,4 +1,4 @@
 {
-  "api_error" : "BAD_REQUEST",
-  "message" : "DNA already registered."
+  "api_error": "BAD_REQUEST",
+  "message": "DNA already registered."
 }

@@ -1,9 +1,8 @@
-package com.github.lucasschwenke.com.github.lucasschwenke.simian.resource.repository.dna
+package com.github.lucasschwenke.simian.resource.repository.dna
 
 import com.github.lucasschwenke.simian.application.config.ObjectMapperConfig
 import com.github.lucasschwenke.simian.domain.dna.Dna
 import com.github.lucasschwenke.simian.domain.dna.DnaType
-import com.github.lucasschwenke.simian.resource.repository.dna.DnaRepositoryDb
 import com.mongodb.MongoClient
 import com.mongodb.ServerAddress
 import com.mongodb.client.MongoCollection

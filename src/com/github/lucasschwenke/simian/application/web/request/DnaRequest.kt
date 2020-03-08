@@ -17,7 +17,7 @@ data class DnaRequest(val dna: List<String>) {
     private fun validateLetter(letter: String) {
         if (!allowedCharacters.contains(letter)) {
             throw InvalidCharacterException(
-                "The char $this in dna it's invalid."
+                "The char $letter in dna it's invalid."
             )
         }
     }

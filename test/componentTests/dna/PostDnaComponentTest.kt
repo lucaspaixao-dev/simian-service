@@ -1,10 +1,11 @@
-package componentTests
+package componentTests.dna
 
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.github.lucasschwenke.componentTests.utils.ComponentTestsUtils.readFile
 import com.github.lucasschwenke.simian.application.module
 import com.github.lucasschwenke.simian.application.web.request.DnaRequest
 import com.github.lucasschwenke.simian.application.web.response.DnaResponse
+import componentTests.ComponentTest
+import componentTests.utils.ComponentTestsUtils
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
@@ -17,26 +18,7 @@ import org.junit.jupiter.api.Test
 import org.skyscreamer.jsonassert.JSONAssert.assertEquals
 import org.skyscreamer.jsonassert.JSONCompareMode
 
-class PostHorizontalDnaComponentTest : ComponentTest() {
-
-    @Test
-    fun `should return 200 status when a simian dna in horizontal`() {
-        withTestApplication({ module(dbTestModule = getTestDbModule()) }) {
-            handleRequest(HttpMethod.Post, "/simian") {
-                val request = DnaRequest(dna = listOf("CCCCCA", "CTGAGC", "TATTGT", "AGAGAG", "CACGTA", "TCACTG"))
-
-                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(objectMapper.writeValueAsString(request))
-            }.apply {
-                assertThat(this.response.status()).isNotNull
-                assertThat(this.response.status()!!.value).isEqualTo(HttpStatusCode.OK.value)
-                assertThat(this.response.content).isNotNull()
-
-                val response = objectMapper.readValue<DnaResponse>(this.response.content!!)
-                assertThat(response.simian).isTrue()
-            }
-        }
-    }
+class PostDnaComponentTest : ComponentTest() {
 
     @Test
     fun `should return 403 status when a human dna in horizontal`() {
@@ -75,7 +57,7 @@ class PostHorizontalDnaComponentTest : ComponentTest() {
                 assertThat(this.response.status()!!.value).isEqualTo(HttpStatusCode.BadRequest.value)
                 assertThat(this.response.content).isNotNull()
 
-                val expectedResponse = readFile("dna_already_registered_error")
+                val expectedResponse = ComponentTestsUtils.readFile("dna_already_registered_error")
                 assertEquals(expectedResponse, this.response.content, JSONCompareMode.LENIENT)
             }
         }
@@ -93,10 +75,28 @@ class PostHorizontalDnaComponentTest : ComponentTest() {
                 assertThat(this.response.status()!!.value).isEqualTo(HttpStatusCode.BadRequest.value)
                 assertThat(this.response.content).isNotNull()
 
-                val expectedResponse = readFile("dna_contains_invalid_format_error")
+                val expectedResponse = ComponentTestsUtils.readFile("dna_contains_invalid_format_error")
                 assertEquals(expectedResponse, this.response.content, JSONCompareMode.LENIENT)
             }
         }
     }
 
+    @Test
+    fun `should return 400 status when dna contains invalid characters`() {
+        withTestApplication({ module(dbTestModule = getTestDbModule()) }) {
+            handleRequest(HttpMethod.Post, "/simian") {
+                val request = DnaRequest(dna = listOf("CTGAGA", "CTGAGC", "TATTGT", "AGAGZG", "CACGTA", "TCACTG"))
+
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody(objectMapper.writeValueAsString(request))
+            }.apply {
+                assertThat(this.response.status()).isNotNull
+                assertThat(this.response.status()!!.value).isEqualTo(HttpStatusCode.BadRequest.value)
+                assertThat(this.response.content).isNotNull()
+
+                val expectedResponse = ComponentTestsUtils.readFile("dna_invalid_letter_error")
+                assertEquals(expectedResponse, this.response.content, JSONCompareMode.LENIENT)
+            }
+        }
+    }
 }

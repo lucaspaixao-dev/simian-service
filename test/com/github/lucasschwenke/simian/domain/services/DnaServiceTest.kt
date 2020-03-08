@@ -1,8 +1,7 @@
-package com.github.lucasschwenke.com.github.lucasschwenke.simian.domain.services
+package com.github.lucasschwenke.simian.domain.services
 
 import com.github.lucasschwenke.simian.application.web.exceptions.DnaAlreadyRegisteredException
 import com.github.lucasschwenke.simian.domain.dna.repositories.DnaRepository
-import com.github.lucasschwenke.simian.domain.services.DnaService
 import com.github.lucasschwenke.simian.domain.validations.DiagonalValidator
 import com.github.lucasschwenke.simian.domain.validations.DnaValidator
 import com.github.lucasschwenke.simian.domain.validations.HorizontalValidator

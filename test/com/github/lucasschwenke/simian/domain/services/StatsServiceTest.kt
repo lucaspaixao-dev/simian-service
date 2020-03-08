@@ -1,4 +1,4 @@
-package com.github.lucasschwenke.com.github.lucasschwenke.simian.domain.services
+package com.github.lucasschwenke.simian.domain.services
 
 import com.github.lucasschwenke.simian.domain.dna.DnaType
 import com.github.lucasschwenke.simian.domain.dna.repositories.DnaRepository

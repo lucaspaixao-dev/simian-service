@@ -1,4 +1,4 @@
-package com.github.lucasschwenke.componentTests.utils
+package componentTests.utils
 
 import java.io.File
 import java.net.URI

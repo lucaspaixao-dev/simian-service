@@ -1,7 +1,6 @@
-package com.github.lucasschwenke.com.github.lucasschwenke.simian.domain.validations
+package com.github.lucasschwenke.simian.domain.validations
 
 import com.github.lucasschwenke.simian.domain.exceptions.InvalidDnaLengthException
-import com.github.lucasschwenke.simian.domain.validations.HorizontalValidator
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test

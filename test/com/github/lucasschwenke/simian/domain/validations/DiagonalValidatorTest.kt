@@ -1,6 +1,5 @@
-package com.github.lucasschwenke.com.github.lucasschwenke.simian.domain.validations
+package com.github.lucasschwenke.simian.domain.validations
 
-import com.github.lucasschwenke.simian.domain.validations.DiagonalValidator
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

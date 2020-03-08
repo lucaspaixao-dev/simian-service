@@ -1,4 +1,4 @@
-package com.github.lucasschwenke.com.github.lucasschwenke.simian.application.web.controllers
+package com.github.lucasschwenke.simian.application.web.controllers
 
 import com.github.lucasschwenke.simian.application.web.controllers.StatsController
 import com.github.lucasschwenke.simian.domain.services.StatsService
@@ -29,6 +29,6 @@ class StatsControllerTest {
             assertThat(this.radio).isEqualTo(BigDecimal.ONE)
         }
 
-        verify { call.response.status(HttpStatusCode.OK)}
+        verify { call.response.status(HttpStatusCode.OK) }
     }
 }
